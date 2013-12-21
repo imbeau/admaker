@@ -1,6 +1,6 @@
 <?php
 
-include_once("bfunctions.class.php");
+include_once("dbfunctions.class.php");
 
 Class Package
 {
