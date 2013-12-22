@@ -1,6 +1,7 @@
 <?php
 
 include_once("database.class.php");
+include_once("settingClass.php");
 include_once("dbfunctions.class.php");
 
 class dbfunctions
@@ -12,7 +13,7 @@ class dbfunctions
 	public function connect()
 	{
 		$dbo = database::getInstance();
-		$dbo->connect('127.0.0.1', 'root', '123', 'admaker');
+		$dbo->connect(Setting::DB_IP, Setting::DB_IP, Setting:DB_PASSWORD, Setting::DB_TABLE);
 	}
 
 	function write($sql)
