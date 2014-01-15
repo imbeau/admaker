@@ -11,7 +11,6 @@ Class Package
 	 private $headline_size;
 	 private $click_url;
 	 private $display_url;
-	 private $hero;
 	 private $product_id;
 	 private $product_details;
 	 private $hero_details;
@@ -19,11 +18,14 @@ Class Package
 	 private $target_code;
 	 
 	
-	function __construct($product_id, $headline, $headline_abbreviation, $headline_size, $hero_id, $target_id)
+	function __construct()
 	{
 		$this->link = new dbfunctions();
 		$this->link->connect();	
-		
+	}
+	
+	public function withParameters($product_id, $headline, $headline_abbreviation, $headline_size, $hero_id, $target_id)
+	{		
 		$this->headline_size = $headline_size;
 		$this->product_id = $product_id;
 		$this->product_details = $this->getDetails($this->product_id, "products");
@@ -33,7 +35,29 @@ Class Package
 		$this->target_id = $target_id;
 		$this->click_url = $this->retrieveClickUrl();
 		$this->display_url = $this->setDisplayUrl();
+	}
+	
+	//loads a single instance of a package and returns it
+	public static function load($id)
+	{
+		$instance = new self();
 		
+		$data = $instance->link->fetch($id, "packages");
+		
+		return $instance->withParameters($data[0]['product_id'], $data[0]['headline'], $data[0]['headline_abbreviation'], 
+										 $data[0]['headline_size'], $data[0]['hero_id'], $data[0]['target_id']);
+	}
+	
+	
+	//can be deprecated?
+	public static function load_multi($ad_id)
+	{
+		//fetches all the ad data
+		$ad_data = $this->link->fetch($ad_id, "ads");
+		
+		//now have to fetch the package data
+		$packages = $this->link->fetchByColumn("ad_id", $ad_id, "ads_packages");
+	
 	}
 	
 	public function save()
@@ -42,7 +66,7 @@ Class Package
 														   "headline" => $this->headline,
 														   "headline_abbreviation" => $this->headline_abbreviation,
 														   "headline_size" => $this->headline_size,
-														   "hero_id" => $this->hero_id,
+														   "hero_id" => $this->hero_details['image_id'],
 														   "target_id" => $this->target_id
 															]);
 		$this->link->write($query);

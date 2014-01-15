@@ -13,7 +13,7 @@ class dbfunctions
 	public function connect()
 	{
 		$dbo = database::getInstance();
-		$dbo->connect(Setting::DB_IP, Setting::DB_IP, Setting:DB_PASSWORD, Setting::DB_TABLE);
+		$dbo->connect('127.0.0.1', 'root', '123', 'admaker');
 	}
 
 	function write($sql)
@@ -91,7 +91,11 @@ class dbfunctions
 
 	function getLastInsertId()
 	{
-		return $dbo->getLastInsertId();
+		$dbo = database::getInstance();
+		$query = "SELECT LAST_INSERT_ID()";
+		$dbo->doQuery($query);
+		$tmp = $dbo->LoadObjectList();
+		return $tmp[0]['LAST_INSERT_ID()'];
 	}
 
 

@@ -10,14 +10,13 @@ include_once "packageClass.php";
 
 	if(isset($_POST['h2_size']))
 		$headline1_size = $_POST['h2_size'];
+		
+	$p1 = new Package($_POST['product1'],$_POST['headline1'],$_POST['shortheadline1'],$headline1_size,$_POST['hero1'],$_POST['target']);
+	$p2 = new Package($_POST['product2'],$_POST['headline2'],$_POST['shortheadline2'],$headline2_size,$_POST['hero2'],$_POST['target']);
 
-
-	$package1 = new Package($_POST['product1'],$_POST['headline1'],$_POST['shortheadline1'],$headline1_size,$_POST['hero1'],$_POST['target']);
-	$package2 = new Package($_POST['product2'],$_POST['headline2'],$_POST['shortheadline2'],$headline2_size,$_POST['hero2'],$_POST['target']);
+	$ad = new Advertisement($_POST['target'],$_POST['layout'],$_POST['date'],$_POST['zincfin'],[$p1,$p2]);
 	
-	$ad = new Advertisement($_POST['target'],$_POST['layout'],$_POST['date'],$_POST['zincfin'],$package1,$package2);
-	
-	$ad->save_patrick();
+	$ad->save();
 	?>
 	<h1>Ad Saved!</h1>
 	<ul>

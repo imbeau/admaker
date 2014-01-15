@@ -1,6 +1,6 @@
 <? 
 
-Class Setting
+class Setting
 {
 	const DB_IP = '127.0.0.1';
 	const DB_USERNAME = 'root';

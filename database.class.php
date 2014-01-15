@@ -63,7 +63,8 @@ class database
 	
 	public function getLastInsertID()
 	{
-		return mysqli_insert_id($this->connection);
+		//return mysqli_insert_id($this->connection);
+		
 	}
 
 
